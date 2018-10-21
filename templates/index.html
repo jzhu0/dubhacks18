@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/basic.css') }}">
 
-<html style="background:url(https://i.pinimg.com/originals/3c/1e/42/3c1e429e1192e789d924351983c2fb57.jpg); height: 100%;">
-  <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+<html>
   <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/basic.css') }}">
+    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
   </head>
-  <div class="container" style="background-color: white; width: 50%;">
-    <body style="text-align: center; background:rgba(255,255,255,0.5); height: inherit; padding-top: 300px;">
-      <h2>Upload new File</h2>
-      <form method=post enctype=multipart/form-data>
-        <input type=file name=file>
-        <input type=submit value=Run>
-      </form>
-    </body>
-  </div>
+  <body style="background: https://i.pinimg.com/originals/3c/1e/42/3c1e429e1192e789d924351983c2fb57.jpg">
+    <div class="container align-middle w-50 h-25" style="background-color: white;">
+      <div class="row align-items-center">
+        <h2>Upload new File</h2>
+        <form method=post enctype=multipart/form-data>
+          <input type=file name=file>
+          <input class="btn btn-primary" type=submit value=Run>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

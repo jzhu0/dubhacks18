@@ -2,6 +2,7 @@ from flask import Flask, flash, render_template, request, redirect, url_for
 app = Flask(__name__)
 import os
 from werkzeug.utils import secure_filename
+from audio_to_txt import process_vid
 
 UPLOAD_FOLDER = 'videos'
 ALLOWED_EXTENSIONS = set(['mp4', 'mov', 'wav'])
@@ -32,6 +33,6 @@ def hello_world():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            fileUploaded = True
+            result = audio_to_txt('videos/' + filename)
             return redirect(url_for('hello_world'))
-    return render_template("index.html", fileUploaded=fileUploaded)
+    return render_template("index.html")
