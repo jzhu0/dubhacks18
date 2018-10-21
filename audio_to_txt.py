@@ -26,7 +26,7 @@ def process_vid(vid_filepath, output_filepath):
         'output.wav')
 
     myaudio = AudioSegment.from_file(file_name, "wav") 
-    chunk_length_ms = 50000 # pydub calculates in millisec
+    chunk_length_ms = 30000 # pydub calculates in millisec
     chunks = make_chunks(myaudio, chunk_length_ms) #Make chunks of one sec
 
     #Convert chunks to raw audio data which you can then feed to HTTP stream

@@ -35,7 +35,7 @@ def hello_world():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            output_file = 'resources/genesis.txt'
+            output_file = 'resources/genesis0.txt'
 
             process_vid('videos/' + filename, output_file)
 
@@ -61,8 +61,7 @@ def get_summary(file, output_file):
     response = requests.post(n_url, files=files)
 
     r = response.json()
-    print(r)
-    print(r['items'])
+
     text = "This is a summary of "
     title = r['summarizerDoc']['title']
     if title:
@@ -74,12 +73,11 @@ def get_summary(file, output_file):
         for topic in r['topics']:
             text += topic.replace('.', ' and ') + ", "
         text += ". "
-    text += "These are the " + str(len(r['items'])) + " key sentences in the video: "
 
     for item in r['items']:
-        text += item['text']
-        text += ". "
-
+        if not any(char.isdigit() for char in item['text']):
+            # filters out contentdisposition errors and other strange transcriptions
+            text += item['text'] + " "
 
     text += "This is the end of the summary."
     with open(output_file, 'w+') as outf:
