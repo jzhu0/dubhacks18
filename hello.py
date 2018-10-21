@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from audio_to_txt import process_vid
 
 UPLOAD_FOLDER = 'videos'
-ALLOWED_EXTENSIONS = set(['mp4', 'mov', 'wav'])
+ALLOWED_EXTENSIONS = set(['mp4', 'mov', 'wav', '3gpp'])
 fileUploaded = False
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -35,11 +35,12 @@ def hello_world():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            output_file = 'resources/genesis0.txt'
+            transcription = 'resources/genesis0.txt'
+            summary = 'resources/summary.txt'
 
-            process_vid('videos/' + filename, output_file)
+            process_vid('videos/' + filename, transcription)
 
-            summary = get_summary(output_file, "summary.txt")
+            summary = get_summary(transcription, summary)
             summary = summary.replace("<b>", "")
             summary = summary.replace("</b>", "")
             summary = summary.replace(":", ".")
@@ -61,8 +62,6 @@ def get_summary(file, output_file):
     response = requests.post(n_url, files=files)
 
     r = response.json()
-    print(r)
-    print(r['items'])
     text = "This is a summary of "
     title = r['summarizerDoc']['title']
     if title:
@@ -74,12 +73,11 @@ def get_summary(file, output_file):
         for topic in r['topics']:
             text += topic.replace('.', ' and ') + ", "
         text += ". "
-    text += "These are the " + str(len(r['items'])) + " key sentences in the video: "
+    text += "These are the key sentences in the video: "
 
     for item in r['items']:
         if not any(char.isdigit() for char in item['text']):
             text += item['text'] + " "
-
 
     text += "This is the end of the summary."
     with open(output_file, 'w+') as outf:
