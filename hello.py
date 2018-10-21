@@ -4,7 +4,7 @@ import os
 import subprocess
 import requests
 from werkzeug.utils import secure_filename
-from audio_to_txt import process_vid
+#from audio_to_txt import process_vid
 
 UPLOAD_FOLDER = 'videos'
 ALLOWED_EXTENSIONS = set(['mp4', 'mov', 'wav'])
