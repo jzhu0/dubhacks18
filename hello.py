@@ -4,7 +4,7 @@ import os
 import subprocess
 import requests
 from werkzeug.utils import secure_filename
-#from audio_to_txt import process_vid
+from audio_to_txt import process_vid
 
 UPLOAD_FOLDER = 'videos'
 ALLOWED_EXTENSIONS = set(['mp4', 'mov', 'wav'])
@@ -56,15 +56,15 @@ def hello_world():
 
 
 def get_summary():
-    API_KEY = "7492989d-6d23-4b32-9b6e-badcd5aef8c4";
+    API_KEY = "7492989d-6d23-4b32-9b6e-badcd5aef8c4"
     window_file_path = "genesis.txt"
     files = {'upload_file': open('genesis.txt','rb')}
+    file_size = str(os.path.getsize('genesis.txt'))
 
-    n_url = "http://api.intellexer.com/summarizeFileContent?apikey=" + API_KEY + "&fileName=" + window_file_path + "&fileSize=100000000" + "&summaryRestriction=10&returnedTopicsCount=2&loadConceptsTree=true&loadNamedEntityTree=true&usePercentRestriction=true&conceptsRestriction=7&structure=general&fullTextTrees=true&textStreamLength=1000&wrapConcepts=true"
-    r = requests.post(n_url, files=files)
-    r = r.json()
-    print(r['items'])
+    n_url = "http://api.intellexer.com/summarizeFileContent?apikey=" + API_KEY + "&fileName=" + window_file_path + "&fileSize=" + file_size + "&summaryRestriction=10&returnedTopicsCount=3&loadConceptsTree=true&loadNamedEntityTree=true&conceptsRestriction=7&structure=general&fullTextTrees=true&textStreamLength=100000000"
+    response = requests.post(n_url, files=files)
 
+    r = response.json()
     text = "This is a summary of "
     title = r['summarizerDoc']['title']
     if title:
@@ -76,10 +76,11 @@ def get_summary():
         for topic in r['topics']:
             text += topic.replace('.', ' and ') + ", "
         text += ". "
-    text += "These are the 10 key sentences in the video:"
-    if len(r['items']) != 0:
-        for item in r['items']:
-            text += item['text']
+    text += "These are the " + str(len(r['items'])) + " key sentences in the video:"
+
+    for item in r['items']:
+        text += item['text']
+ 
 
     text += "This is the end of the summary."
     return text

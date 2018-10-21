@@ -10,7 +10,7 @@ from pydub.utils import make_chunks
 
 import subprocess
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = './gce.key'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = './dubhacks18-6ae89a479b84.json'
 
 def process_vid(vid_filepath):
     command = "ffmpeg -y -i " + vid_filepath + " -ar 16000 -vn resources/output.wav"
@@ -26,7 +26,7 @@ def process_vid(vid_filepath):
         'output.wav')
 
     myaudio = AudioSegment.from_file(file_name, "wav") 
-    chunk_length_ms = 10000 # pydub calculates in millisec
+    chunk_length_ms = 5000 # pydub calculates in millisec
     chunks = make_chunks(myaudio, chunk_length_ms) #Make chunks of one sec
 
     fulltrans = ""
