@@ -12,7 +12,7 @@ import subprocess
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = './gce.key'
 
-def process_mov(vid_filepath):
+def process_vid(vid_filepath):
     command = "ffmpeg -i " + vid_filepath + " -ar 16000 -vn resources/output.wav"
     subprocess.call(command, shell=True)
 
