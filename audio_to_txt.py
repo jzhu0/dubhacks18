@@ -39,7 +39,6 @@ def process_vid(vid_filepath):
 
     # Detects speech in the audio file
     response = client.recognize(config, audio)
-    print(response)
 
     for result in response.results:
-        print('Transcript: {}'.format(result.alternatives[0].transcript))
+        return result.alternatives[0].transcript
