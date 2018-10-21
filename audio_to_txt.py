@@ -13,7 +13,7 @@ import subprocess
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = './gce.key'
 
 def process_vid(vid_filepath):
-    command = "ffmpeg -i " + vid_filepath + " -ar 16000 -vn resources/output.wav"
+    command = "ffmpeg -y -i " + vid_filepath + " -ar 16000 -vn resources/output.wav"
     subprocess.call(command, shell=True)
 
     # Instantiates a client
@@ -39,6 +39,9 @@ def process_vid(vid_filepath):
 
     # Detects speech in the audio file
     response = client.recognize(config, audio)
+    fulltrans = ""
 
     for result in response.results:
-        return result.alternatives[0].transcript
+        fulltrans += result.alternatives[0].transcript
+
+    return fulltrans

@@ -34,13 +34,14 @@ def hello_world():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            result = audio_to_txt('videos/' + filename)
+            result = process_vid('videos/' + filename)
 
             textfile = open('genesis.txt', 'w')
             textfile.write(result)
             textfile.close()
 
             summary = get_summary()
+            print(summary)
 
             return redirect(url_for('hello_world'))
     return render_template("index.html")
