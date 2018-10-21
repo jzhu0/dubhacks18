@@ -4,7 +4,7 @@ import os
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = 'videos'
-ALLOWED_EXTENSIONS = set(['mp4', 'mlv', 'wav'])
+ALLOWED_EXTENSIONS = set(['mp4', 'mov', 'wav'])
 fileUploaded = False
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
