@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-
-<html>
+<html style="background:url(http://getwallpapers.com/wallpaper/full/6/2/3/389089.jpg); height: 100%;">
+  <meta name="viewport" content = "width=device-width, initial-scale=1.0">
   <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/basic.css') }}">
-    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
-  <body style="background: https://i.pinimg.com/originals/3c/1e/42/3c1e429e1192e789d924351983c2fb57.jpg">
-    <div class="container align-middle w-50 h-25" style="background-color: white;">
-      <div class="row align-items-center">
-        <h2>Upload new File</h2>
-        <form method=post enctype=multipart/form-data>
-          <input type=file name=file>
-          <input class="btn btn-primary" type=submit value=Run>
-        </form>
-      </div>
-    </div>
-  </body>
+  <div class="container">
+    <body style="text-align: center; background:rgba(255,255,255,0.5); height: inherit; padding-top: 300px;">
+      <h2>Upload Video</h2>
+      <form method=post enctype=multipart/form-data>
+        <input type=file name=file style="margin-left: 120px;"> <br /><br />
+        <input class="btn btn-primary" type=submit value=Run>
+      </form>
+    </body>
+  </div>
 </html>
