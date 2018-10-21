@@ -42,22 +42,13 @@ def hello_world():
             textfile.close()
 
             summary = get_summary()
+            #summary = summary.replace("<b>", "")
+           # summary = summary.replace("</b>", "")
+          #  summary = summary.replace(":", ".")
+           # summary = summary.replace('"', "")
+           # summary = summary.replace("'", "")
             print(summary)
-            summary.replace("<b>", "")
-            summary.replace("</b", "")
-            summary.replace(":", ".")
-            summary.replace('"', "")
-            summary.replace("'", "")
-
-"""
-output:
-This is a summary of the video. The topics that are covered by the video are: Unknown,
-. These are the 10 key sentences in the video:hello my <b>name</b> is <b>biochemistry</b>
-and <b>sociology</b> <b>Thursday</b> and we have a <b>career</b> fair on <b>Tuesday</b>
-and Wednesday yeahThis is the end of the summary.
-
-replace the tags, and also make sure no " characters in there
-"""
+            
             subprocess.call('say \"' + summary + '"', shell=True)
 
             return redirect(url_for('hello_world'))
@@ -72,6 +63,7 @@ def get_summary():
     n_url = "http://api.intellexer.com/summarizeFileContent?apikey=" + API_KEY + "&fileName=" + window_file_path + "&fileSize=100000000" + "&summaryRestriction=10&returnedTopicsCount=2&loadConceptsTree=true&loadNamedEntityTree=true&usePercentRestriction=true&conceptsRestriction=7&structure=general&fullTextTrees=true&textStreamLength=1000&wrapConcepts=true"
     r = requests.post(n_url, files=files)
     r = r.json()
+    print(r['items'])
 
     text = "This is a summary of "
     title = r['summarizerDoc']['title']
@@ -85,8 +77,9 @@ def get_summary():
             text += topic.replace('.', ' and ') + ", "
         text += ". "
     text += "These are the 10 key sentences in the video:"
-    for item in r['items']:
-        text += item['text']
+    if len(r['items']) != 0:
+        for item in r['items']:
+            text += item['text']
 
     text += "This is the end of the summary."
     return text

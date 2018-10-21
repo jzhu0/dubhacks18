@@ -26,22 +26,27 @@ def process_vid(vid_filepath):
         'output.wav')
 
     myaudio = AudioSegment.from_file(file_name, "wav") 
+    chunk_length_ms = 10000 # pydub calculates in millisec
+    chunks = make_chunks(myaudio, chunk_length_ms) #Make chunks of one sec
 
-    #Convert chunks to raw audio data which you can then feed to HTTP stream
-    raw_audio_data = myaudio.raw_data
-    # Loads the audio into memory
-    audio = types.RecognitionAudio(content=raw_audio_data)
-
-    config = types.RecognitionConfig(
-        encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=16000,
-        language_code='en-US')
-
-    # Detects speech in the audio file
-    response = client.recognize(config, audio)
     fulltrans = ""
+    #Convert chunks to raw audio data which you can then feed to HTTP stream
+    for i, chunk in enumerate(chunks):
+        raw_audio_data = chunk.raw_data
 
-    for result in response.results:
-        fulltrans += result.alternatives[0].transcript
+        # Loads the audio into memory
+        audio = types.RecognitionAudio(content=raw_audio_data)
+
+        config = types.RecognitionConfig(
+            encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
+            sample_rate_hertz=16000,
+            language_code='en-US')
+
+        # Detects speech in the audio file
+        response = client.recognize(config, audio)
+
+        for result in response.results:
+            fulltrans += result.alternatives[0].transcript
+            fulltrans += ". "
 
     return fulltrans
