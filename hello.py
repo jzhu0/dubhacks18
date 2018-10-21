@@ -35,13 +35,16 @@ def hello_world():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            result = process_vid('videos/' + filename)
+            output_file = 'resources/genesis.txt'
 
-            textfile = open('genesis.txt', 'w')
-            textfile.write(result)
-            textfile.close()
+            process_vid('videos/' + filename, output_file)
 
-            summary = get_summary()
+            summary = get_summary(output_file)
+            summary = summary.replace("<b>", "")
+            summary = summary.replace("</b>", "")
+            summary = summary.replace(":", ".")
+            summary = summary.replace('"', "")
+            summary = summary.replace("'", "")
             print(summary)
             
             subprocess.call('say \"' + summary + '"', shell=True)
@@ -50,16 +53,16 @@ def hello_world():
     return render_template("index.html")
 
 
-def get_summary():
+def get_summary(file):
     API_KEY = "7492989d-6d23-4b32-9b6e-badcd5aef8c4"
-    window_file_path = "genesis.txt"
-    files = {'upload_file': open('genesis.txt','rb')}
-    file_size = str(os.path.getsize('genesis.txt'))
+    files = {'upload_file': open(file,'rb')}
 
-    n_url = "http://api.intellexer.com/summarizeFileContent?apikey=" + API_KEY + "&fileName=" + window_file_path + "&fileSize=" + file_size + "&summaryRestriction=10&returnedTopicsCount=3&loadConceptsTree=true&loadNamedEntityTree=true&conceptsRestriction=7&structure=general&fullTextTrees=true&textStreamLength=100000000"
+    n_url = "http://api.intellexer.com/summarizeFileContent?apikey=" + API_KEY + "&fileName=" + file + "&fileSize=100000&summaryRestriction=10&returnedTopicsCount=3&loadConceptsTree=true&loadNamedEntityTree=true&conceptsRestriction=7&structure=general&fullTextTrees=true&textStreamLength=100000000"
     response = requests.post(n_url, files=files)
 
     r = response.json()
+    print(r)
+    print(r['items'])
     text = "This is a summary of "
     title = r['summarizerDoc']['title']
     if title:
@@ -75,7 +78,8 @@ def get_summary():
 
     for item in r['items']:
         text += item['text']
- 
+        text += ". "
+
 
     text += "This is the end of the summary."
     return text
