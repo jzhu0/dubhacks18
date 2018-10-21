@@ -39,7 +39,7 @@ def hello_world():
 
             process_vid('videos/' + filename, output_file)
 
-            summary = get_summary(output_file)
+            summary = get_summary(output_file, "summary.txt")
             summary = summary.replace("<b>", "")
             summary = summary.replace("</b>", "")
             summary = summary.replace(":", ".")
@@ -53,7 +53,7 @@ def hello_world():
     return render_template("index.html")
 
 
-def get_summary(file):
+def get_summary(file, output_file):
     API_KEY = "7492989d-6d23-4b32-9b6e-badcd5aef8c4"
     files = {'upload_file': open(file,'rb')}
 
@@ -82,4 +82,6 @@ def get_summary(file):
 
 
     text += "This is the end of the summary."
+    with open(output_file, 'w+') as outf:
+        outf.write(text)
     return text
