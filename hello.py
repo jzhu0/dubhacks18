@@ -3,8 +3,8 @@ app = Flask(__name__)
 import os
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '/Users/tbang/git/dubhacks18/videos'
-ALLOWED_EXTENSIONS = set(['mp4'])
+UPLOAD_FOLDER = 'videos'
+ALLOWED_EXTENSIONS = set(['mp4', 'mlv', 'wav'])
 fileUploaded = False
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
