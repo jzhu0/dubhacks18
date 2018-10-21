@@ -77,11 +77,11 @@ def get_summary(file, output_file):
     text += "These are the " + str(len(r['items'])) + " key sentences in the video: "
 
     for item in r['items']:
-        text += item['text']
-        text += ". "
+        if not any(char.isdigit() for char in item['text']):
+            text += item['text'] + " "
 
 
     text += "This is the end of the summary."
-    with open(output_file, 'w+ ') as outf:
+    with open(output_file, 'w+') as outf:
         outf.write(text)
     return text
