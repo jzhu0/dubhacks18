@@ -43,6 +43,8 @@ def hello_world():
             summary = get_summary()
             print(summary)
 
+            os.system("say " + summary)
+
             return redirect(url_for('hello_world'))
     return render_template("index.html")
 
@@ -66,7 +68,7 @@ def get_summary():
         text += "The topics that are covered by the video are: "
         for topic in r['topics']:
             text += topic.replace('.', ' and ') + ", "
-        text += ". "    
+        text += ". "
     text += "These are the 10 key sentences in the video:"
     for item in r['items']:
         text += item['text']
