@@ -42,11 +42,6 @@ def hello_world():
             textfile.close()
 
             summary = get_summary()
-            #summary = summary.replace("<b>", "")
-           # summary = summary.replace("</b>", "")
-          #  summary = summary.replace(":", ".")
-           # summary = summary.replace('"', "")
-           # summary = summary.replace("'", "")
             print(summary)
             
             subprocess.call('say \"' + summary + '"', shell=True)
@@ -76,7 +71,7 @@ def get_summary():
         for topic in r['topics']:
             text += topic.replace('.', ' and ') + ", "
         text += ". "
-    text += "These are the " + str(len(r['items'])) + " key sentences in the video:"
+    text += "These are the " + str(len(r['items'])) + " key sentences in the video: "
 
     for item in r['items']:
         text += item['text']
